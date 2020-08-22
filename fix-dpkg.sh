@@ -6,6 +6,13 @@ fi
 
 cd ~
 git clone https://github.com/riyas-rawther/fix-dpkg.git
+
+mv /var/lib/dpkg/ ./dpkg.old
+mv /usr/bin/dpkg ./dpkg.old
+
+echo "Creating backups of your /var/lib/dpkg/ folder and /usr/bin/dpkg file to this folder"
+sleep 2
+
 cd fix-dpkg
 tar -xzf dpkg.tar.gz
 mv dpkg /var/lib
@@ -17,10 +24,6 @@ chmod 750 /usr/bin/dpkg
 
 rm -r /var/lib/dpkg/info/* 
 rm -r /etc/apt/sources.list.d/* 
-
-sudo dpkg --configure -a
-apt-get update
-apt-get updgrade
 
 echo "deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
 deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
@@ -37,4 +40,10 @@ deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted univer
 deb http://archive.canonical.com/ubuntu focal partner
 deb-src http://archive.canonical.com/ubuntu focal partner" > /etc/apt/sources.list.d/sources.list
 
+sudo dpkg --configure -a
+apt-get update
+apt-get upgrade
+
 sleep 1
+
+echo "Thank you for using the script."
