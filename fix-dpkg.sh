@@ -5,24 +5,29 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 cd ~
-git clone https://github.com/riyas-rawther/fix-dpkg.git
+#git clone https://github.com/riyas-rawther/fix-dpkg.git
+wget https://github.com/riyas-rawther/fix-dpkg/archive/master.zip
+unzip master.zip 
+cd fix-dpkg-master
 
-mv /var/lib/dpkg/ ./dpkg.old
-mv /usr/bin/dpkg ./dpkg.old
+
+mv /var/lib/dpkg/ ./var-lib-dpkg.old
+mv /usr/bin/dpkg ./usr-bin-dpkg.old
 
 echo "Creating backups of your /var/lib/dpkg/ folder and /usr/bin/dpkg file to this folder"
 sleep 2
 
-cd fix-dpkg
+mv dpkg /usr/bin/
+chmod 750 /usr/bin/dpkg
+
 tar -xzf dpkg.tar.gz
 mv dpkg /var/lib
 rm /var/lib/dpkg/statoverride
 rm -R * /var/lib/dpkg/info/
+mkdir -pv /var/lib/dpkg/info/
+touch /var/lib/dpkg/info/format-new
 
-cp dpkg /usr/bin/
-chmod 750 /usr/bin/dpkg
-
-rm -r /var/lib/dpkg/info/* 
+ 
 rm -r /etc/apt/sources.list.d/* 
 
 echo "deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
@@ -47,4 +52,4 @@ apt-get upgrade
 echo "Thank you for using the script."
 sleep 1
 echo "Rebooting."
-reboot
+#reboot
