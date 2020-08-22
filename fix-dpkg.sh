@@ -38,12 +38,13 @@ deb http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe m
 deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
 
 deb http://archive.canonical.com/ubuntu focal partner
-deb-src http://archive.canonical.com/ubuntu focal partner" > /etc/apt/sources.list.d/sources.list
+deb-src http://archive.canonical.com/ubuntu focal partner" > /etc/apt/sources.list
 
 sudo dpkg --configure -a
 apt-get update
 apt-get upgrade
 
-sleep 1
-
 echo "Thank you for using the script."
+sleep 1
+echo "Rebooting."
+reboot
